@@ -760,10 +760,6 @@ a:hover {
 }
 
 .contact-info-logo {
-    background: var(--white);
-    padding: 1.5rem;
-    border-radius: var(--radius-lg);
-    box-shadow: var(--shadow);
     display: flex;
     align-items: center;
     justify-content: center;
