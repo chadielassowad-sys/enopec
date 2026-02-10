@@ -35,3 +35,4 @@ package-lock.json
 # Fichiers de build
 dist/
 build/
+.vercel
