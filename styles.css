@@ -88,7 +88,7 @@ a:hover {
 }
 
 .logo img {
-    height: 56px;
+    height: 110px;
     width: auto;
 }
 
@@ -528,6 +528,8 @@ a:hover {
 }
 
 .accompagnement-card {
+    display: flex;
+    flex-direction: column;
     background: var(--white);
     border-radius: var(--radius-lg);
     overflow: hidden;
@@ -562,6 +564,7 @@ a:hover {
     padding: 0 1.25rem 1rem;
     font-size: 0.9rem;
     color: var(--text-muted);
+    flex: 1;
 }
 
 .btn-discover {
@@ -937,7 +940,7 @@ a:hover {
 }
 
 .footer-brand img {
-    height: 48px;
+    height: 90px;
     width: auto;
     margin-bottom: 0.5rem;
     filter: brightness(0) invert(1);
