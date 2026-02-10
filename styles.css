@@ -759,6 +759,23 @@ a:hover {
     gap: 1.25rem;
 }
 
+.contact-info-logo {
+    background: var(--white);
+    padding: 1.5rem;
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.contact-info-logo img {
+    width: 100%;
+    max-width: 320px;
+    height: auto;
+    display: block;
+}
+
 .contact-info-block {
     background: var(--white);
     padding: 1.25rem 1.5rem;
