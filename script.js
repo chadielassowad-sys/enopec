@@ -401,24 +401,31 @@ if (contactForm) {
         
         console.log('Données du formulaire:', data);
         
+        // Choisir l'endpoint Formspree selon le type de demande
+        const typeDemande = (contactForm.querySelector('[name="type_demande"]') || {}).value;
+        const formspreeCommercial = 'https://formspree.io/f/mlgwgydv';
+        const formspreeTechnique = 'https://formspree.io/f/xlgwgygv';
+        const formspreeUrl = typeDemande === 'Technique' ? formspreeTechnique : formspreeCommercial;
+        
         // Désactiver le bouton pendant l'envoi
         const submitBtn = contactForm.querySelector('.btn-submit');
         const originalText = submitBtn.textContent;
         submitBtn.disabled = true;
         submitBtn.textContent = 'Envoi en cours...';
         
-        // Envoyer les données au serveur PHP
-        fetch('contact.php', {
+        // Envoyer vers Formspree (commercial ou technique)
+        fetch(formspreeUrl, {
             method: 'POST',
             body: formData,
+            headers: { Accept: 'application/json' },
         })
         .then(response => response.json())
         .then(result => {
-            if (result.success) {
-                showNotification(result.message || 'Merci pour votre message ! Nous vous recontacterons dans les plus brefs délais.', 'success');
+            if (result.ok) {
+                showNotification('Merci pour votre message ! Nous vous recontacterons dans les plus brefs délais.', 'success');
                 contactForm.reset();
             } else {
-                showNotification(result.message || 'Une erreur est survenue. Veuillez réessayer.', 'error');
+                showNotification(result.error || 'Une erreur est survenue. Veuillez réessayer.', 'error');
             }
         })
         .catch((error) => {
@@ -426,14 +433,9 @@ if (contactForm) {
             showNotification('Une erreur est survenue. Veuillez réessayer ou nous contacter directement.', 'error');
         })
         .finally(() => {
-            // Réactiver le bouton
             submitBtn.disabled = false;
             submitBtn.textContent = originalText;
         });
-        
-        // Si vous n'avez pas de serveur PHP, vous pouvez utiliser cette version simple :
-        // showNotification('Merci pour votre message ! Nous vous recontacterons dans les plus brefs délais.', 'success');
-        // contactForm.reset();
     });
 }
 
