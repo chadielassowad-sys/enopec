@@ -795,6 +795,15 @@ a:hover {
     line-height: 1.5;
 }
 
+.contact-info-block p + p {
+    margin-top: 0.4rem;
+}
+
+.contact-info-block strong {
+    color: var(--primary);
+    font-weight: 600;
+}
+
 .contact-info-block a {
     color: var(--primary);
     text-decoration: none;
@@ -986,6 +995,15 @@ a:hover {
     margin: 0.25rem 0;
     opacity: 0.9;
     font-size: 0.95rem;
+}
+
+.footer-contact a {
+    color: var(--white);
+    text-decoration: underline;
+}
+
+.footer-contact a:hover {
+    opacity: 1;
 }
 
 .footer-bottom {
