@@ -1,0 +1,905 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administration - ENOPEC Ingénierie</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Styles spécifiques pour l'admin */
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .login-screen {
+            max-width: 400px;
+            margin: 10vh auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+        }
+        .login-screen h1 {
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 2rem;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .form-group input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+        }
+        .btn-login {
+            width: 100%;
+            padding: 0.75rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-login:hover {
+            background: var(--primary-light);
+        }
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--border);
+        }
+        .admin-header h1 {
+            color: var(--primary);
+            margin: 0;
+        }
+        .btn-logout {
+            padding: 0.5rem 1rem;
+            background: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .admin-tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid var(--border);
+        }
+        .admin-tab {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--text-muted);
+        }
+        .admin-tab.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+        .admin-content {
+            display: none;
+        }
+        .admin-content.active {
+            display: block;
+        }
+        .editable-section {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+        }
+        .editable-section h3 {
+            color: var(--primary);
+            margin-top: 0;
+            margin-bottom: 1rem;
+        }
+        .editable-field {
+            margin-bottom: 1rem;
+        }
+        .editable-field label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text);
+        }
+        .editable-field input,
+        .editable-field textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            font-family: inherit;
+        }
+        .editable-field textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .image-upload {
+            position: relative;
+            display: inline-block;
+        }
+        .image-preview {
+            max-width: 200px;
+            max-height: 200px;
+            border-radius: 8px;
+            margin-top: 0.5rem;
+            display: block;
+        }
+        .btn-upload {
+            padding: 0.5rem 1rem;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            margin-top: 0.5rem;
+        }
+        .btn-save {
+            padding: 0.75rem 2rem;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+        .btn-save:hover {
+            background: var(--primary-light);
+        }
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            background: #4CAF50;
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.2);
+            z-index: 10000;
+            display: none;
+        }
+        .notification.show {
+            display: block;
+            animation: slideIn 0.3s ease;
+        }
+        .notification.error {
+            background: #f44336;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--text-muted);
+        }
+    </style>
+</head>
+<body>
+    <!-- Écran de connexion -->
+    <div id="loginScreen" class="login-screen">
+        <h1>🔐 Administration ENOPEC</h1>
+        <form id="loginForm">
+            <div class="form-group">
+                <label for="password">Mot de passe</label>
+                <input type="password" id="password" required autocomplete="off">
+            </div>
+            <button type="submit" class="btn-login">Se connecter</button>
+        </form>
+    </div>
+
+    <!-- Interface d'administration -->
+    <div id="adminInterface" class="admin-container" style="display: none;">
+        <div class="admin-header">
+            <h1>📝 Administration du site</h1>
+            <button class="btn-logout" onclick="logout()">Déconnexion</button>
+        </div>
+
+        <div class="admin-tabs">
+            <button class="admin-tab active" onclick="showTab('hero')">Hero</button>
+            <button class="admin-tab" onclick="showTab('intro')">Introduction</button>
+            <button class="admin-tab" onclick="showTab('prestations')">Prestations</button>
+            <button class="admin-tab" onclick="showTab('outils')">Outils</button>
+            <button class="admin-tab" onclick="showTab('equipements')">Équipements</button>
+            <button class="admin-tab" onclick="showTab('qui-sommes-nous')">Qui sommes-nous</button>
+            <button class="admin-tab" onclick="showTab('methodo')">Méthodologie</button>
+            <button class="admin-tab" onclick="showTab('valeurs')">Valeurs</button>
+            <button class="admin-tab" onclick="showTab('contact')">Contact</button>
+            <button class="admin-tab" onclick="showTab('parchemin')">Parchemin</button>
+            <button class="admin-tab" onclick="showTab('logo')">Logo</button>
+        </div>
+
+        <!-- Contenu Hero -->
+        <div id="tab-hero" class="admin-content active">
+            <div class="editable-section">
+                <h3>Hero - Titre principal</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="hero-title" data-field="hero.title">
+                </div>
+                <div class="editable-field">
+                    <label>Sous-titre</label>
+                    <input type="text" id="hero-lead" data-field="hero.lead">
+                </div>
+                <div class="editable-field">
+                    <label>Image de fond</label>
+                    <input type="text" id="hero-bg-image" data-field="hero.bgImage">
+                    <div class="image-upload">
+                        <input type="file" id="hero-bg-upload" accept="image/*" onchange="uploadImage('hero-bg-upload', 'hero-bg-image')">
+                        <button type="button" class="btn-upload">📤 Uploader une image</button>
+                    </div>
+                    <img id="hero-bg-preview" class="image-preview" style="display: none;">
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenu Introduction -->
+        <div id="tab-intro" class="admin-content">
+            <div class="editable-section">
+                <h3>Section Introduction</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="intro-title" data-field="intro.title">
+                </div>
+                <div class="editable-field">
+                    <label>Sous-titre</label>
+                    <input type="text" id="intro-subtitle" data-field="intro.subtitle">
+                </div>
+                <div class="editable-field">
+                    <label>Point 1</label>
+                    <input type="text" id="intro-point1" data-field="intro.point1">
+                </div>
+                <div class="editable-field">
+                    <label>Point 2</label>
+                    <input type="text" id="intro-point2" data-field="intro.point2">
+                </div>
+                <div class="editable-field">
+                    <label>Point 3</label>
+                    <input type="text" id="intro-point3" data-field="intro.point3">
+                </div>
+                <div class="editable-field">
+                    <label>Image</label>
+                    <input type="text" id="intro-image" data-field="intro.image">
+                    <div class="image-upload">
+                        <input type="file" id="intro-image-upload" accept="image/*" onchange="uploadImage('intro-image-upload', 'intro-image')">
+                        <button type="button" class="btn-upload">📤 Uploader une image</button>
+                    </div>
+                    <img id="intro-image-preview" class="image-preview" style="display: none;">
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenu Prestations -->
+        <div id="tab-prestations" class="admin-content">
+            <div class="editable-section">
+                <h3>Titre de section</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="prestations-title" data-field="prestations.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="prestations-desc" data-field="prestations.description"></textarea>
+                </div>
+            </div>
+            <div class="editable-section">
+                <h3>DPE</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="dpe-title" data-field="prestations.dpe.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="dpe-desc" data-field="prestations.dpe.description"></textarea>
+                </div>
+                <div class="editable-field">
+                    <label>Image</label>
+                    <input type="text" id="dpe-image" data-field="prestations.dpe.image">
+                    <div class="image-upload">
+                        <input type="file" id="dpe-image-upload" accept="image/*" onchange="uploadImage('dpe-image-upload', 'dpe-image')">
+                        <button type="button" class="btn-upload">📤 Uploader</button>
+                    </div>
+                </div>
+            </div>
+            <div class="editable-section">
+                <h3>Audit</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="audit-title" data-field="prestations.audit.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="audit-desc" data-field="prestations.audit.description"></textarea>
+                </div>
+                <div class="editable-field">
+                    <label>Image</label>
+                    <input type="text" id="audit-image" data-field="prestations.audit.image">
+                    <div class="image-upload">
+                        <input type="file" id="audit-image-upload" accept="image/*" onchange="uploadImage('audit-image-upload', 'audit-image')">
+                        <button type="button" class="btn-upload">📤 Uploader</button>
+                    </div>
+                </div>
+            </div>
+            <div class="editable-section">
+                <h3>PPPT & DTG</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="pppt-title" data-field="prestations.pppt.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="pppt-desc" data-field="prestations.pppt.description"></textarea>
+                </div>
+                <div class="editable-field">
+                    <label>Image</label>
+                    <input type="text" id="pppt-image" data-field="prestations.pppt.image">
+                    <div class="image-upload">
+                        <input type="file" id="pppt-image-upload" accept="image/*" onchange="uploadImage('pppt-image-upload', 'pppt-image')">
+                        <button type="button" class="btn-upload">📤 Uploader</button>
+                    </div>
+                </div>
+            </div>
+            <div class="editable-section">
+                <h3>STD</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="std-title" data-field="prestations.std.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="std-desc" data-field="prestations.std.description"></textarea>
+                </div>
+                <div class="editable-field">
+                    <label>Image</label>
+                    <input type="text" id="std-image" data-field="prestations.std.image">
+                    <div class="image-upload">
+                        <input type="file" id="std-image-upload" accept="image/*" onchange="uploadImage('std-image-upload', 'std-image')">
+                        <button type="button" class="btn-upload">📤 Uploader</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenu Outils -->
+        <div id="tab-outils" class="admin-content">
+            <div class="editable-section">
+                <h3>Titre de section</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="outils-title" data-field="outils.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="outils-desc" data-field="outils.description"></textarea>
+                </div>
+            </div>
+            <div class="editable-section">
+                <h3>RTex</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="rtex-title" data-field="outils.rtex.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="rtex-desc" data-field="outils.rtex.description"></textarea>
+                </div>
+                <div class="editable-field">
+                    <label>Image</label>
+                    <input type="text" id="rtex-image" data-field="outils.rtex.image">
+                    <div class="image-upload">
+                        <input type="file" id="rtex-image-upload" accept="image/*" onchange="uploadImage('rtex-image-upload', 'rtex-image')">
+                        <button type="button" class="btn-upload">📤 Uploader</button>
+                    </div>
+                </div>
+            </div>
+            <div class="editable-section">
+                <h3>Méthode 3CL – DPE 2021</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="3cl-title" data-field="outils.3cl.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="3cl-desc" data-field="outils.3cl.description"></textarea>
+                </div>
+                <div class="editable-field">
+                    <label>Image</label>
+                    <input type="text" id="3cl-image" data-field="outils.3cl.image">
+                    <div class="image-upload">
+                        <input type="file" id="3cl-image-upload" accept="image/*" onchange="uploadImage('3cl-image-upload', '3cl-image')">
+                        <button type="button" class="btn-upload">📤 Uploader</button>
+                    </div>
+                </div>
+            </div>
+            <div class="editable-section">
+                <h3>Simulation Thermique Dynamique</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="std-outils-title" data-field="outils.std.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="std-outils-desc" data-field="outils.std.description"></textarea>
+                </div>
+                <div class="editable-field">
+                    <label>Image</label>
+                    <input type="text" id="std-outils-image" data-field="outils.std.image">
+                    <div class="image-upload">
+                        <input type="file" id="std-outils-image-upload" accept="image/*" onchange="uploadImage('std-outils-image-upload', 'std-outils-image')">
+                        <button type="button" class="btn-upload">📤 Uploader</button>
+                    </div>
+                </div>
+            </div>
+            <div class="editable-section">
+                <h3>Dimensionnement des systèmes de chauffage</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="chauffage-title" data-field="outils.chauffage.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="chauffage-desc" data-field="outils.chauffage.description"></textarea>
+                </div>
+                <div class="editable-field">
+                    <label>Image</label>
+                    <input type="text" id="chauffage-image" data-field="outils.chauffage.image">
+                    <div class="image-upload">
+                        <input type="file" id="chauffage-image-upload" accept="image/*" onchange="uploadImage('chauffage-image-upload', 'chauffage-image')">
+                        <button type="button" class="btn-upload">📤 Uploader</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenu Équipements -->
+        <div id="tab-equipements" class="admin-content">
+            <div class="editable-section">
+                <h3>Titre de section</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="equipements-title" data-field="equipements.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="equipements-desc" data-field="equipements.description"></textarea>
+                </div>
+                <div class="editable-field">
+                    <label>Image de fond</label>
+                    <input type="text" id="equipements-hero-image" data-field="equipements.heroImage">
+                    <div class="image-upload">
+                        <input type="file" id="equipements-hero-upload" accept="image/*" onchange="uploadImage('equipements-hero-upload', 'equipements-hero-image')">
+                        <button type="button" class="btn-upload">📤 Uploader</button>
+                    </div>
+                </div>
+            </div>
+            <div class="editable-section">
+                <h3>Liste des équipements</h3>
+                <div class="editable-field">
+                    <label>Équipement 1</label>
+                    <input type="text" id="equipement1" data-field="equipements.equipement1" placeholder="Ex: Jauge d'épaisseur — Vitrage et glace">
+                </div>
+                <div class="editable-field">
+                    <label>Équipement 2</label>
+                    <input type="text" id="equipement2" data-field="equipements.equipement2" placeholder="Ex: Caméra thermique — Déperditions et isolation">
+                </div>
+                <div class="editable-field">
+                    <label>Équipement 3</label>
+                    <input type="text" id="equipement3" data-field="equipements.equipement3" placeholder="Ex: Anémomètre — Ventilation et débits">
+                </div>
+                <div class="editable-field">
+                    <label>Équipement 4</label>
+                    <input type="text" id="equipement4" data-field="equipements.equipement4" placeholder="Ex: Pince ampèremétrique — Courant, tension, continuité">
+                </div>
+                <div class="editable-field">
+                    <label>Équipement 5</label>
+                    <input type="text" id="equipement5" data-field="equipements.equipement5" placeholder="Ex: Wattmètre sur prise — Consommation réelle">
+                </div>
+                <div class="editable-field">
+                    <label>Équipement 6</label>
+                    <input type="text" id="equipement6" data-field="equipements.equipement6" placeholder="Ex: Luxmètre — Éclairement">
+                </div>
+                <div class="editable-field">
+                    <label>Équipement 7</label>
+                    <input type="text" id="equipement7" data-field="equipements.equipement7" placeholder="Ex: Télémètre laser — Distances et relevés">
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenu Qui sommes-nous -->
+        <div id="tab-qui-sommes-nous" class="admin-content">
+            <div class="editable-section">
+                <h3>Titre de section</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="qui-sommes-title" data-field="quiSommesNous.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="qui-sommes-desc" data-field="quiSommesNous.description"></textarea>
+                </div>
+            </div>
+            <div class="editable-section">
+                <h3>Particuliers</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="particuliers-title" data-field="quiSommesNous.particuliers.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="particuliers-desc" data-field="quiSommesNous.particuliers.description"></textarea>
+                </div>
+                <div class="editable-field">
+                    <label>Image</label>
+                    <input type="text" id="particuliers-image" data-field="quiSommesNous.particuliers.image">
+                    <div class="image-upload">
+                        <input type="file" id="particuliers-image-upload" accept="image/*" onchange="uploadImage('particuliers-image-upload', 'particuliers-image')">
+                        <button type="button" class="btn-upload">📤 Uploader</button>
+                    </div>
+                </div>
+                <div class="editable-field">
+                    <label>Titre détail</label>
+                    <input type="text" id="particuliers-detail-title" data-field="quiSommesNous.particuliers.detailTitle">
+                </div>
+                <div class="editable-field">
+                    <label>Lead</label>
+                    <input type="text" id="particuliers-lead" data-field="quiSommesNous.particuliers.lead">
+                </div>
+                <div class="editable-field">
+                    <label>Sous-titre détail</label>
+                    <input type="text" id="particuliers-detail-subtitle" data-field="quiSommesNous.particuliers.detailSubtitle">
+                </div>
+                <div class="editable-field">
+                    <label>Description détail</label>
+                    <textarea id="particuliers-detail-desc" data-field="quiSommesNous.particuliers.detailDescription"></textarea>
+                </div>
+            </div>
+            <div class="editable-section">
+                <h3>Collectivité</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="collectivite-title" data-field="quiSommesNous.collectivite.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="collectivite-desc" data-field="quiSommesNous.collectivite.description"></textarea>
+                </div>
+                <div class="editable-field">
+                    <label>Image</label>
+                    <input type="text" id="collectivite-image" data-field="quiSommesNous.collectivite.image">
+                    <div class="image-upload">
+                        <input type="file" id="collectivite-image-upload" accept="image/*" onchange="uploadImage('collectivite-image-upload', 'collectivite-image')">
+                        <button type="button" class="btn-upload">📤 Uploader</button>
+                    </div>
+                </div>
+                <div class="editable-field">
+                    <label>Titre détail</label>
+                    <input type="text" id="collectivite-detail-title" data-field="quiSommesNous.collectivite.detailTitle">
+                </div>
+                <div class="editable-field">
+                    <label>Lead</label>
+                    <input type="text" id="collectivite-lead" data-field="quiSommesNous.collectivite.lead">
+                </div>
+                <div class="editable-field">
+                    <label>Sous-titre détail</label>
+                    <input type="text" id="collectivite-detail-subtitle" data-field="quiSommesNous.collectivite.detailSubtitle">
+                </div>
+                <div class="editable-field">
+                    <label>Description détail</label>
+                    <textarea id="collectivite-detail-desc" data-field="quiSommesNous.collectivite.detailDescription"></textarea>
+                </div>
+            </div>
+            <div class="editable-section">
+                <h3>Copropriété</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="copropriete-title" data-field="quiSommesNous.copropriete.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="copropriete-desc" data-field="quiSommesNous.copropriete.description"></textarea>
+                </div>
+                <div class="editable-field">
+                    <label>Image</label>
+                    <input type="text" id="copropriete-image" data-field="quiSommesNous.copropriete.image">
+                    <div class="image-upload">
+                        <input type="file" id="copropriete-image-upload" accept="image/*" onchange="uploadImage('copropriete-image-upload', 'copropriete-image')">
+                        <button type="button" class="btn-upload">📤 Uploader</button>
+                    </div>
+                </div>
+                <div class="editable-field">
+                    <label>Titre détail</label>
+                    <input type="text" id="copropriete-detail-title" data-field="quiSommesNous.copropriete.detailTitle">
+                </div>
+                <div class="editable-field">
+                    <label>Lead</label>
+                    <input type="text" id="copropriete-lead" data-field="quiSommesNous.copropriete.lead">
+                </div>
+                <div class="editable-field">
+                    <label>Sous-titre détail</label>
+                    <input type="text" id="copropriete-detail-subtitle" data-field="quiSommesNous.copropriete.detailSubtitle">
+                </div>
+                <div class="editable-field">
+                    <label>Description détail</label>
+                    <textarea id="copropriete-detail-desc" data-field="quiSommesNous.copropriete.detailDescription"></textarea>
+                </div>
+            </div>
+            <div class="editable-section">
+                <h3>Professionnel</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="professionnel-title" data-field="quiSommesNous.professionnel.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="professionnel-desc" data-field="quiSommesNous.professionnel.description"></textarea>
+                </div>
+                <div class="editable-field">
+                    <label>Image</label>
+                    <input type="text" id="professionnel-image" data-field="quiSommesNous.professionnel.image">
+                    <div class="image-upload">
+                        <input type="file" id="professionnel-image-upload" accept="image/*" onchange="uploadImage('professionnel-image-upload', 'professionnel-image')">
+                        <button type="button" class="btn-upload">📤 Uploader</button>
+                    </div>
+                </div>
+                <div class="editable-field">
+                    <label>Titre détail</label>
+                    <input type="text" id="professionnel-detail-title" data-field="quiSommesNous.professionnel.detailTitle">
+                </div>
+                <div class="editable-field">
+                    <label>Lead</label>
+                    <input type="text" id="professionnel-lead" data-field="quiSommesNous.professionnel.lead">
+                </div>
+                <div class="editable-field">
+                    <label>Sous-titre détail</label>
+                    <input type="text" id="professionnel-detail-subtitle" data-field="quiSommesNous.professionnel.detailSubtitle">
+                </div>
+                <div class="editable-field">
+                    <label>Description détail</label>
+                    <textarea id="professionnel-detail-desc" data-field="quiSommesNous.professionnel.detailDescription"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenu Méthodologie -->
+        <div id="tab-methodo" class="admin-content">
+            <div class="editable-section">
+                <h3>Titre de section</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="methodo-title" data-field="methodo.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="methodo-desc" data-field="methodo.description"></textarea>
+                </div>
+            </div>
+            <div class="editable-section">
+                <h3>Notre méthodologie</h3>
+                <div class="editable-field">
+                    <label>Point 1</label>
+                    <input type="text" id="methodo-point1" data-field="methodo.point1" placeholder="Ex: Visite sur site — Analyse complète...">
+                </div>
+                <div class="editable-field">
+                    <label>Point 2</label>
+                    <input type="text" id="methodo-point2" data-field="methodo.point2" placeholder="Ex: Collecte des données — Outils performants...">
+                </div>
+                <div class="editable-field">
+                    <label>Point 3</label>
+                    <input type="text" id="methodo-point3" data-field="methodo.point3" placeholder="Ex: Rapport DPE — Document clair...">
+                </div>
+                <div class="editable-field">
+                    <label>Point 4</label>
+                    <input type="text" id="methodo-point4" data-field="methodo.point4" placeholder="Ex: Accompagnement — Mise en œuvre...">
+                </div>
+            </div>
+            <div class="editable-section">
+                <h3>Pourquoi choisir ENOPEC</h3>
+                <div class="editable-field">
+                    <label>Point 1</label>
+                    <input type="text" id="pourquoi-point1" data-field="methodo.pourquoi.point1" placeholder="Ex: Expertise reconnue — Diagnostiqueurs certifiés...">
+                </div>
+                <div class="editable-field">
+                    <label>Point 2</label>
+                    <input type="text" id="pourquoi-point2" data-field="methodo.pourquoi.point2" placeholder="Ex: Approche sur mesure — Chaque diagnostic...">
+                </div>
+                <div class="editable-field">
+                    <label>Point 3</label>
+                    <input type="text" id="pourquoi-point3" data-field="methodo.pourquoi.point3" placeholder="Ex: Transparence — Rapport complet...">
+                </div>
+                <div class="editable-field">
+                    <label>Point 4</label>
+                    <input type="text" id="pourquoi-point4" data-field="methodo.pourquoi.point4" placeholder="Ex: Engagement — Accompagnement au-delà...">
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenu Valeurs -->
+        <div id="tab-valeurs" class="admin-content">
+            <div class="editable-section">
+                <h3>Titre de section</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="valeurs-title" data-field="valeurs.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="valeurs-desc" data-field="valeurs.description"></textarea>
+                </div>
+            </div>
+            <div class="editable-section">
+                <h3>Valeur 1 - Expertise</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="valeur1-title" data-field="valeurs.valeur1.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="valeur1-desc" data-field="valeurs.valeur1.description"></textarea>
+                </div>
+            </div>
+            <div class="editable-section">
+                <h3>Valeur 2 - Proximité</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="valeur2-title" data-field="valeurs.valeur2.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="valeur2-desc" data-field="valeurs.valeur2.description"></textarea>
+                </div>
+            </div>
+            <div class="editable-section">
+                <h3>Valeur 3 - Transparence</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="valeur3-title" data-field="valeurs.valeur3.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="valeur3-desc" data-field="valeurs.valeur3.description"></textarea>
+                </div>
+            </div>
+            <div class="editable-section">
+                <h3>Valeur 4 - Durabilité</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="valeur4-title" data-field="valeurs.valeur4.title">
+                </div>
+                <div class="editable-field">
+                    <label>Description</label>
+                    <textarea id="valeur4-desc" data-field="valeurs.valeur4.description"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenu Contact -->
+        <div id="tab-contact" class="admin-content">
+            <div class="editable-section">
+                <h3>Coordonnées</h3>
+                <div class="editable-field">
+                    <label>Téléphone</label>
+                    <input type="text" id="contact-phone" data-field="contact.phone">
+                </div>
+                <div class="editable-field">
+                    <label>Email Commercial</label>
+                    <input type="email" id="contact-email-commercial" data-field="contact.emailCommercial">
+                </div>
+                <div class="editable-field">
+                    <label>Email Technique</label>
+                    <input type="email" id="contact-email-technique" data-field="contact.emailTechnique">
+                </div>
+                <div class="editable-field">
+                    <label>Adresse</label>
+                    <textarea id="contact-address" data-field="contact.address"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenu Parchemin -->
+        <div id="tab-parchemin" class="admin-content">
+            <div class="editable-section">
+                <h3>Section Parchemin</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="parchemin-title" data-field="parchemin.title">
+                </div>
+                <div class="editable-field">
+                    <label>Paragraphe 1</label>
+                    <textarea id="parchemin-p1" data-field="parchemin.paragraph1"></textarea>
+                </div>
+                <div class="editable-field">
+                    <label>Paragraphe 2</label>
+                    <textarea id="parchemin-p2" data-field="parchemin.paragraph2"></textarea>
+                </div>
+                <div class="editable-field">
+                    <label>Image</label>
+                    <input type="text" id="parchemin-image" data-field="parchemin.image">
+                    <div class="image-upload">
+                        <input type="file" id="parchemin-image-upload" accept="image/*" onchange="uploadImage('parchemin-image-upload', 'parchemin-image')">
+                        <button type="button" class="btn-upload">📤 Uploader</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenu Logo -->
+        <div id="tab-logo" class="admin-content">
+            <div class="editable-section">
+                <h3>Logo du site</h3>
+                <div class="editable-field">
+                    <label>URL du logo (header)</label>
+                    <input type="text" id="logo-header" data-field="logo.header">
+                    <div class="image-upload">
+                        <input type="file" id="logo-header-upload" accept="image/*" onchange="uploadImage('logo-header-upload', 'logo-header')">
+                        <button type="button" class="btn-upload">📤 Uploader</button>
+                    </div>
+                    <img id="logo-header-preview" class="image-preview" style="display: none;">
+                </div>
+                <div class="editable-field">
+                    <label>URL du logo (footer)</label>
+                    <input type="text" id="logo-footer" data-field="logo.footer">
+                    <div class="image-upload">
+                        <input type="file" id="logo-footer-upload" accept="image/*" onchange="uploadImage('logo-footer-upload', 'logo-footer')">
+                        <button type="button" class="btn-upload">📤 Uploader</button>
+                    </div>
+                    <img id="logo-footer-preview" class="image-preview" style="display: none;">
+                </div>
+                <div class="editable-field">
+                    <label>URL du logo (contact)</label>
+                    <input type="text" id="logo-contact" data-field="logo.contact">
+                    <div class="image-upload">
+                        <input type="file" id="logo-contact-upload" accept="image/*" onchange="uploadImage('logo-contact-upload', 'logo-contact')">
+                        <button type="button" class="btn-upload">📤 Uploader</button>
+                    </div>
+                    <img id="logo-contact-preview" class="image-preview" style="display: none;">
+                </div>
+            </div>
+            <div class="editable-section">
+                <h3>Footer</h3>
+                <div class="editable-field">
+                    <label>Texte du footer</label>
+                    <input type="text" id="footer-text" data-field="footer.text">
+                </div>
+            </div>
+        </div>
+
+        <button class="btn-save" onclick="saveAll()">💾 Enregistrer toutes les modifications</button>
+    </div>
+
+    <div id="notification" class="notification"></div>
+
+    <!-- Firebase SDK -->
+    <script type="module" src="firebase-config.js"></script>
+    <script type="module" src="admin.js"></script>
+</body>
+</html>

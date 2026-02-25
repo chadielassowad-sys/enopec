@@ -1,0 +1,13 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Règles pour le contenu du site
+    match /siteContent/{document} {
+      // Lecture autorisée pour tous
+      allow read: if true;
+      
+      // Écriture autorisée pour tous (à sécuriser avec authentification si nécessaire)
+      allow write: if true;
+    }
+  }
+}

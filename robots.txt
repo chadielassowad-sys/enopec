@@ -1,0 +1,20 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://www.enopec-ingenierie.fr/sitemap.xml
+Sitemap: https://enopec-ingenierie.fr/sitemap.xml
+
+# Fichiers à ne pas indexer
+Disallow: /admin.html
+Disallow: /contact.php
+Disallow: /404.html
+Disallow: /500.html
+
+# Autoriser les ressources importantes
+Allow: /styles.css
+Allow: /script.js
+Allow: /*.png
+Allow: /*.jpg
+Allow: /*.jpeg
+Allow: /*.webp

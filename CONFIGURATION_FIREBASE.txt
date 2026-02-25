@@ -1,0 +1,88 @@
+╔════════════════════════════════════════════════════════════════╗
+║         CONFIGURATION FIREBASE - ENOPEC INGÉNIERIE            ║
+╚════════════════════════════════════════════════════════════════╝
+
+📋 ÉTAPES DE CONFIGURATION
+═══════════════════════════════════════════════════════════════════
+
+ÉTAPE 1 : SE CONNECTER À FIREBASE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Dans le terminal, exécutez :
+    firebase login
+
+→ Cela ouvrira votre navigateur pour vous connecter avec votre compte Google
+→ Autorisez Firebase CLI à accéder à votre compte
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ÉTAPE 2 : SÉLECTIONNER LE PROJET
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+    firebase use enopec-8beb8
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ÉTAPE 3 : ACTIVER FIRESTORE DANS LA CONSOLE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Allez sur : https://console.firebase.google.com/project/enopec-8beb8
+2. Cliquez sur "Firestore Database" dans le menu de gauche
+3. Cliquez sur "Créer une base de données"
+4. Choisissez "Mode test" (vous pouvez changer les règles plus tard)
+5. Sélectionnez une région (ex: europe-west)
+6. Cliquez sur "Activer"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ÉTAPE 4 : ACTIVER STORAGE DANS LA CONSOLE
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+1. Dans la console Firebase, cliquez sur "Storage" dans le menu
+2. Cliquez sur "Commencer"
+3. Acceptez les règles par défaut
+4. Cliquez sur "Terminé"
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+ÉTAPE 5 : DÉPLOYER LES RÈGLES DE SÉCURITÉ
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+Dans le terminal, exécutez :
+
+    firebase deploy --only firestore:rules
+    firebase deploy --only storage:rules
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+✅ VÉRIFICATION
+═══════════════════════════════════════════════════════════════════
+
+1. Ouvrez admin.html dans votre navigateur
+2. Connectez-vous avec le mot de passe : enopec1290
+3. Les données par défaut seront automatiquement créées au premier chargement
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+🚀 ALTERNATIVE : SCRIPT AUTOMATIQUE
+═══════════════════════════════════════════════════════════════════
+
+Double-cliquez sur : setup-firebase.bat
+
+(Ce script fera les étapes 1, 2, 5 automatiquement)
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+❓ DÉPANNAGE
+═══════════════════════════════════════════════════════════════════
+
+Problème : "Authentication Error"
+Solution : Exécutez "firebase login" et reconnectez-vous
+
+Problème : "Project not found"
+Solution : Vérifiez que le projet enopec-8beb8 existe dans votre compte
+
+Problème : "Permission denied"
+Solution : Vérifiez que vous avez les droits d'administration sur le projet
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
