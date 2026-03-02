@@ -8,7 +8,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyCzsVFfE_xtHq1hnjwz1oRWY1vhggNyCB8",
   authDomain: "enopec-8beb8.firebaseapp.com",
   projectId: "enopec-8beb8",
-  storageBucket: "enopec-8beb8.firebasestorage.app",
+  storageBucket: "enopec-8beb8.appspot.com",
   messagingSenderId: "198792660568",
   appId: "1:198792660568:web:b6a030095117d5cebb2c2d",
   measurementId: "G-PW1D80EV3N"
