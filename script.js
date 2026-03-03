@@ -39,14 +39,13 @@ window.addEventListener('load', () => {
 // ========================================
 // Feature Cards Click Handler (Modal)
 // ========================================
-// Contenu par défaut des modals Hero (Énergie / Optimisation / Économie)
-// Ces valeurs sont surchargées par Firebase si des données existent (voir firebase-loader.js)
-const featureContentDefault = {
+const featureContent = {
     energie: {
         title: "Énergie",
         subtitle: "Innover pour une énergie durable et performante",
         content: `
             <p>Chez ENOPEC Ingénierie, nous plaçons l'énergie au cœur de vos projets. Que ce soit pour la conception de bâtiments neufs ou la rénovation de structures existantes, notre expertise vous permet de maximiser l'efficacité énergétique tout en réduisant votre empreinte carbone. Nous vous accompagnons dans le choix des solutions les plus adaptées : isolation performante, systèmes de chauffage et de climatisation optimisés, énergies renouvelables, et bien plus encore.</p>
+            
             <p>Notre objectif ? Vous offrir des bâtiments non seulement conformes aux réglementations en vigueur, mais aussi conçus pour le futur, avec une consommation énergétique maîtrisée et une qualité de vie améliorée.</p>
         `
     },
@@ -55,6 +54,7 @@ const featureContentDefault = {
         subtitle: "Optimisez vos performances, réduisez vos coûts",
         content: `
             <p>L'optimisation énergétique est un levier essentiel pour améliorer la performance de vos projets. Grâce à des outils d'analyse avancés et une approche sur mesure, nous identifions les points d'amélioration et proposons des solutions adaptées à vos besoins spécifiques.</p>
+            
             <p>De l'audit énergétique à la mise en œuvre de technologies innovantes, nous vous aidons à optimiser chaque détail : gestion intelligente des flux, automatisation des systèmes, et intégration des énergies renouvelables. Avec nous, chaque projet devient une opportunité d'allier confort, durabilité et rentabilité.</p>
         `
     },
@@ -63,20 +63,16 @@ const featureContentDefault = {
         subtitle: "Réalisez des économies durables",
         content: `
             <p>Investir dans l'efficacité énergétique, c'est aussi réaliser des économies significatives sur le long terme. Notre bureau d'études vous guide pour réduire vos dépenses énergétiques sans compromettre le confort ou la qualité de vos espaces.</p>
+            
             <p>Nous analysons vos consommations, identifions les sources de gaspillage et vous proposons des solutions concrètes pour diminuer vos factures. Parce qu'une gestion optimisée de l'énergie est synonyme de performance économique, nous vous aidons à transformer vos contraintes en opportunités financières.</p>
         `
     }
 };
 
-// Utilise Firebase si disponible, sinon les valeurs par défaut
-function getFeatureContent() {
-    return window.siteModalContent?.features || featureContentDefault;
-}
-
 // ========================================
 // Contenu détaillé des prestations (modal au clic)
 // ========================================
-const prestationContentDefault = {
+const prestationContent = {
     dpe: {
         title: "Nos prestations de DPE",
         subtitle: "Diagnostic de Performance Énergétique",
@@ -182,11 +178,6 @@ const prestationContentDefault = {
     }
 };
 
-// Utilise Firebase si disponible, sinon les valeurs par défaut
-function getPrestationContent() {
-    return window.siteModalContent?.prestations || prestationContentDefault;
-}
-
 // Gestion des clics sur les feature cards
 document.addEventListener('DOMContentLoaded', () => {
     const featureCards = document.querySelectorAll('.pill[data-feature]');
@@ -209,7 +200,9 @@ document.addEventListener('DOMContentLoaded', () => {
     featureCards.forEach(card => {
         card.addEventListener('click', (e) => {
             const featureType = card.getAttribute('data-feature');
-            const content = getFeatureContent()[featureType];
+            // Utiliser les données Firebase si disponibles, sinon fallback local
+            const fbData = window.firebasePopups?.[featureType];
+            const content = fbData && fbData.title ? fbData : featureContent[featureType];
             if (content) openModal(content.title, content.subtitle, content.content);
         });
     });
@@ -219,7 +212,9 @@ document.addEventListener('DOMContentLoaded', () => {
     prestationCards.forEach(card => {
         card.addEventListener('click', (e) => {
             const key = card.getAttribute('data-prestation');
-            const content = getPrestationContent()[key];
+            // Utiliser les données Firebase si disponibles, sinon fallback local
+            const fbData = window.firebasePopups?.[key];
+            const content = fbData && fbData.title ? fbData : prestationContent[key];
             if (content) openModal(content.title, content.subtitle, content.content);
         });
     });

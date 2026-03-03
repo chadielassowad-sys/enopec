@@ -5,30 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Administration - ENOPEC Ingénierie</title>
     <link rel="stylesheet" href="styles.css">
-    <!-- Quill Rich Text Editor -->
-    <link href="https://cdn.quilljs.com/1.3.7/quill.snow.css" rel="stylesheet">
     <style>
-        /* Styles éditeur Quill */
-        .quill-editor-wrapper {
-            background: #fff;
-            border: 1px solid #d1d5db;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-        .quill-editor-wrapper .ql-toolbar {
-            border: none;
-            border-bottom: 1px solid #d1d5db;
-            background: #f9fafb;
-        }
-        .quill-editor-wrapper .ql-container {
-            border: none;
-            font-size: 14px;
-            min-height: 140px;
-        }
-        .quill-editor-wrapper .ql-editor {
-            min-height: 140px;
-            line-height: 1.6;
-        }
         /* Styles spécifiques pour l'admin */
         .admin-container {
             max-width: 1400px;
@@ -919,144 +896,126 @@
 
         <!-- Contenu Popups -->
         <div id="tab-popups" class="admin-content">
-            <p style="background:#d1fae5;border-left:4px solid #10b981;padding:12px 16px;border-radius:4px;margin-bottom:24px;">
-                ✅ Écrivez directement le texte — <strong>Gras</strong>, <em>Italique</em>, titres, listes sont disponibles via la barre d'outils. Pas besoin de HTML !
-            </p>
 
-            <!-- Popups Hero -->
+            <!-- Popup Énergie -->
             <div class="editable-section">
-                <h3>🟢 Popup "Énergie" (bouton Hero)</h3>
+                <h3>💡 Popup — Énergie</h3>
                 <div class="editable-field">
                     <label>Titre</label>
-                    <input type="text" id="popup-energie-title" placeholder="Énergie">
+                    <input type="text" id="popup-energie-title">
                 </div>
                 <div class="editable-field">
                     <label>Sous-titre</label>
-                    <input type="text" id="popup-energie-subtitle" placeholder="Innover pour une énergie durable...">
+                    <input type="text" id="popup-energie-subtitle">
                 </div>
                 <div class="editable-field">
-                    <label>Contenu</label>
-                    <div class="quill-editor-wrapper">
-                        <div id="editor-energie"></div>
-                    </div>
-                    <input type="hidden" id="popup-energie-content">
+                    <label>Contenu (HTML autorisé)</label>
+                    <textarea id="popup-energie-content" rows="6"></textarea>
                 </div>
             </div>
 
+            <!-- Popup Optimisation -->
             <div class="editable-section">
-                <h3>🔵 Popup "Optimisation" (bouton Hero)</h3>
+                <h3>⚙️ Popup — Optimisation</h3>
                 <div class="editable-field">
                     <label>Titre</label>
-                    <input type="text" id="popup-optimisation-title" placeholder="Optimisation">
+                    <input type="text" id="popup-optimisation-title">
                 </div>
                 <div class="editable-field">
                     <label>Sous-titre</label>
-                    <input type="text" id="popup-optimisation-subtitle" placeholder="Optimisez vos performances...">
+                    <input type="text" id="popup-optimisation-subtitle">
                 </div>
                 <div class="editable-field">
-                    <label>Contenu</label>
-                    <div class="quill-editor-wrapper">
-                        <div id="editor-optimisation"></div>
-                    </div>
-                    <input type="hidden" id="popup-optimisation-content">
+                    <label>Contenu (HTML autorisé)</label>
+                    <textarea id="popup-optimisation-content" rows="6"></textarea>
                 </div>
             </div>
 
+            <!-- Popup Économie -->
             <div class="editable-section">
-                <h3>🟡 Popup "Économie" (bouton Hero)</h3>
+                <h3>💶 Popup — Économie</h3>
                 <div class="editable-field">
                     <label>Titre</label>
-                    <input type="text" id="popup-economie-title" placeholder="Économie">
+                    <input type="text" id="popup-economie-title">
                 </div>
                 <div class="editable-field">
                     <label>Sous-titre</label>
-                    <input type="text" id="popup-economie-subtitle" placeholder="Réalisez des économies durables">
+                    <input type="text" id="popup-economie-subtitle">
                 </div>
                 <div class="editable-field">
-                    <label>Contenu</label>
-                    <div class="quill-editor-wrapper">
-                        <div id="editor-economie"></div>
-                    </div>
-                    <input type="hidden" id="popup-economie-content">
+                    <label>Contenu (HTML autorisé)</label>
+                    <textarea id="popup-economie-content" rows="6"></textarea>
                 </div>
             </div>
 
-            <!-- Popups Prestations -->
+            <!-- Popup DPE -->
             <div class="editable-section">
-                <h3>📋 Popup "DPE" (carte prestations)</h3>
+                <h3>🏠 Popup — DPE</h3>
                 <div class="editable-field">
                     <label>Titre</label>
-                    <input type="text" id="popup-dpe-title" placeholder="Nos prestations de DPE">
+                    <input type="text" id="popup-dpe-title">
                 </div>
                 <div class="editable-field">
                     <label>Sous-titre</label>
-                    <input type="text" id="popup-dpe-subtitle" placeholder="Diagnostic de Performance Énergétique">
+                    <input type="text" id="popup-dpe-subtitle">
                 </div>
                 <div class="editable-field">
-                    <label>Contenu</label>
-                    <div class="quill-editor-wrapper">
-                        <div id="editor-dpe"></div>
-                    </div>
-                    <input type="hidden" id="popup-dpe-content">
+                    <label>Contenu (HTML autorisé)</label>
+                    <textarea id="popup-dpe-content" rows="6"></textarea>
                 </div>
             </div>
 
+            <!-- Popup Audit -->
             <div class="editable-section">
-                <h3>📋 Popup "Audit Énergétique" (carte prestations)</h3>
+                <h3>🔍 Popup — Audit énergétique</h3>
                 <div class="editable-field">
                     <label>Titre</label>
-                    <input type="text" id="popup-audit-title" placeholder="Audit Énergétique Général">
+                    <input type="text" id="popup-audit-title">
                 </div>
                 <div class="editable-field">
                     <label>Sous-titre</label>
-                    <input type="text" id="popup-audit-subtitle" placeholder="Optimisez la performance énergétique...">
+                    <input type="text" id="popup-audit-subtitle">
                 </div>
                 <div class="editable-field">
-                    <label>Contenu</label>
-                    <div class="quill-editor-wrapper">
-                        <div id="editor-audit"></div>
-                    </div>
-                    <input type="hidden" id="popup-audit-content">
+                    <label>Contenu (HTML autorisé)</label>
+                    <textarea id="popup-audit-content" rows="6"></textarea>
                 </div>
             </div>
 
+            <!-- Popup PPPT -->
             <div class="editable-section">
-                <h3>📋 Popup "PPPT & DTG" (carte prestations)</h3>
+                <h3>📋 Popup — PPPT & DTG</h3>
                 <div class="editable-field">
                     <label>Titre</label>
-                    <input type="text" id="popup-pppt-title" placeholder="PPPT &amp; DTG">
+                    <input type="text" id="popup-pppt-title">
                 </div>
                 <div class="editable-field">
                     <label>Sous-titre</label>
-                    <input type="text" id="popup-pppt-subtitle" placeholder="Planifiez et valorisez l'entretien...">
+                    <input type="text" id="popup-pppt-subtitle">
                 </div>
                 <div class="editable-field">
-                    <label>Contenu</label>
-                    <div class="quill-editor-wrapper">
-                        <div id="editor-pppt"></div>
-                    </div>
-                    <input type="hidden" id="popup-pppt-content">
+                    <label>Contenu (HTML autorisé)</label>
+                    <textarea id="popup-pppt-content" rows="6"></textarea>
                 </div>
             </div>
 
+            <!-- Popup STD -->
             <div class="editable-section">
-                <h3>📋 Popup "STD" (carte prestations)</h3>
+                <h3>🌡️ Popup — Simulation Thermique</h3>
                 <div class="editable-field">
                     <label>Titre</label>
-                    <input type="text" id="popup-std-title" placeholder="Simulation Thermique Dynamique (STD)">
+                    <input type="text" id="popup-std-title">
                 </div>
                 <div class="editable-field">
                     <label>Sous-titre</label>
-                    <input type="text" id="popup-std-subtitle" placeholder="Études avancées pour optimiser...">
+                    <input type="text" id="popup-std-subtitle">
                 </div>
                 <div class="editable-field">
-                    <label>Contenu</label>
-                    <div class="quill-editor-wrapper">
-                        <div id="editor-std"></div>
-                    </div>
-                    <input type="hidden" id="popup-std-content">
+                    <label>Contenu (HTML autorisé)</label>
+                    <textarea id="popup-std-content" rows="6"></textarea>
                 </div>
             </div>
+
         </div>
 
         <button class="btn-save" onclick="saveAll()">💾 Enregistrer toutes les modifications</button>
@@ -1064,37 +1023,8 @@
 
     <div id="notification" class="notification"></div>
 
-    <!-- Quill JS -->
-    <script src="https://cdn.quilljs.com/1.3.7/quill.min.js"></script>
-
     <!-- Firebase SDK -->
     <script type="module" src="firebase-config.js"></script>
     <script type="module" src="admin.js"></script>
-
-    <!-- Initialisation des éditeurs Quill -->
-    <script>
-        // Barre d'outils commune
-        const toolbarOptions = [
-            ['bold', 'italic', 'underline'],
-            [{ 'header': 2 }, { 'header': 3 }],
-            [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-            ['clean']
-        ];
-
-        // Créer un éditeur pour chaque popup
-        const quillEditors = {};
-        const editorIds = ['energie', 'optimisation', 'economie', 'dpe', 'audit', 'pppt', 'std'];
-
-        editorIds.forEach(id => {
-            quillEditors[id] = new Quill(`#editor-${id}`, {
-                theme: 'snow',
-                placeholder: 'Écrivez le contenu du popup ici...',
-                modules: { toolbar: toolbarOptions }
-            });
-        });
-
-        // Exposer pour admin.js
-        window.quillEditors = quillEditors;
-    </script>
 </body>
 </html>

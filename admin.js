@@ -240,43 +240,6 @@ async function initializeDefaultData() {
         },
         footer: {
             text: "Votre solution pour un bâtiment performant"
-        },
-        popups: {
-            energie: {
-                title: "Énergie",
-                subtitle: "Innover pour une énergie durable et performante",
-                content: "<p>Chez ENOPEC Ingénierie, nous plaçons l'énergie au cœur de vos projets. Que ce soit pour la conception de bâtiments neufs ou la rénovation de structures existantes, notre expertise vous permet de maximiser l'efficacité énergétique tout en réduisant votre empreinte carbone.</p><p>Notre objectif ? Vous offrir des bâtiments non seulement conformes aux réglementations en vigueur, mais aussi conçus pour le futur, avec une consommation énergétique maîtrisée et une qualité de vie améliorée.</p>"
-            },
-            optimisation: {
-                title: "Optimisation",
-                subtitle: "Optimisez vos performances, réduisez vos coûts",
-                content: "<p>L'optimisation énergétique est un levier essentiel pour améliorer la performance de vos projets. Grâce à des outils d'analyse avancés et une approche sur mesure, nous identifions les points d'amélioration et proposons des solutions adaptées à vos besoins spécifiques.</p><p>Avec nous, chaque projet devient une opportunité d'allier confort, durabilité et rentabilité.</p>"
-            },
-            economie: {
-                title: "Économie",
-                subtitle: "Réalisez des économies durables",
-                content: "<p>Investir dans l'efficacité énergétique, c'est aussi réaliser des économies significatives sur le long terme. Notre bureau d'études vous guide pour réduire vos dépenses énergétiques sans compromettre le confort ou la qualité de vos espaces.</p><p>Nous analysons vos consommations, identifions les sources de gaspillage et vous proposons des solutions concrètes pour diminuer vos factures.</p>"
-            },
-            dpe: {
-                title: "Nos prestations de DPE",
-                subtitle: "Diagnostic de Performance Énergétique",
-                content: "<h3>DPE Individuel</h3><p>Destiné aux maisons individuelles, ce diagnostic analyse la performance énergétique de votre logement et vous propose des solutions adaptées (isolation, chauffage, ventilation).</p><h3>DPE Collectif</h3><p>Pour les copropriétés, nous réalisons un diagnostic global qui évalue la performance énergétique de l'ensemble du bâtiment.</p><h3>DPE Tertiaire</h3><p>Spécifiquement conçu pour les bureaux et commerces, ce diagnostic prend en compte les spécificités des bâtiments tertiaires.</p>"
-            },
-            audit: {
-                title: "Audit Énergétique Général",
-                subtitle: "Optimisez la performance énergétique de votre bâtiment",
-                content: "<p>Chez ENOPEC, nous réalisons des audits énergétiques complets pour analyser en profondeur la consommation énergétique de votre bâtiment. Notre objectif : vous fournir une analyse précise et des recommandations concrètes.</p><h3>Pourquoi réaliser un audit ?</h3><ul class=\"modal-list\"><li>Identifier les sources de gaspillage énergétique</li><li>Prioriser les travaux d'amélioration</li><li>Réduire vos factures d'énergie</li><li>Valoriser votre patrimoine immobilier</li></ul>"
-            },
-            pppt: {
-                title: "PPPT & DTG",
-                subtitle: "Planifiez et valorisez l'entretien de votre patrimoine immobilier",
-                content: "<p>Chez ENOPEC, nous vous accompagnons dans l'évaluation technique de vos bâtiments grâce au <strong>Plan Pluriannuel de Travaux (PPPT)</strong> et au <strong>Diagnostic Technique Global (DTG)</strong>.</p><h3>Pourquoi réaliser un PPPT ou un DTG ?</h3><ul class=\"modal-list\"><li><strong>Anticiper les travaux :</strong> Identifiez les interventions à prévoir sur 5, 10 ou 15 ans.</li><li><strong>Optimiser la gestion de votre patrimoine :</strong> Priorisez les travaux selon leur urgence.</li><li><strong>Respecter les obligations légales :</strong> Le DTG est obligatoire pour les copropriétés de plus de 10 ans.</li></ul>"
-            },
-            std: {
-                title: "Simulation Thermique Dynamique (STD)",
-                subtitle: "Études avancées pour optimiser les performances énergétiques",
-                content: "<p>Réalisez des études de simulation avancées pour prédire le comportement thermique des bâtiments en conditions réelles et optimiser leurs performances énergétiques.</p><h3>Pourquoi choisir ENOPEC ?</h3><ul class=\"modal-list\"><li><strong>Outils performants :</strong> Logiciels de pointe pour des simulations précises.</li><li><strong>Expertise technique :</strong> Ingénieurs maîtrisant les enjeux énergétiques.</li><li><strong>Solutions sur mesure :</strong> Chaque simulation est adaptée à vos besoins.</li></ul>"
-            }
         }
     };
     
@@ -425,46 +388,28 @@ function populateForm(data) {
     // Footer
     setValue('footer-text', data.footer?.text);
 
-    // Popups - titres et sous-titres (inputs normaux)
+    // Popups
     setValue('popup-energie-title', data.popups?.energie?.title);
     setValue('popup-energie-subtitle', data.popups?.energie?.subtitle);
+    setValue('popup-energie-content', data.popups?.energie?.content);
     setValue('popup-optimisation-title', data.popups?.optimisation?.title);
     setValue('popup-optimisation-subtitle', data.popups?.optimisation?.subtitle);
+    setValue('popup-optimisation-content', data.popups?.optimisation?.content);
     setValue('popup-economie-title', data.popups?.economie?.title);
     setValue('popup-economie-subtitle', data.popups?.economie?.subtitle);
+    setValue('popup-economie-content', data.popups?.economie?.content);
     setValue('popup-dpe-title', data.popups?.dpe?.title);
     setValue('popup-dpe-subtitle', data.popups?.dpe?.subtitle);
+    setValue('popup-dpe-content', data.popups?.dpe?.content);
     setValue('popup-audit-title', data.popups?.audit?.title);
     setValue('popup-audit-subtitle', data.popups?.audit?.subtitle);
+    setValue('popup-audit-content', data.popups?.audit?.content);
     setValue('popup-pppt-title', data.popups?.pppt?.title);
     setValue('popup-pppt-subtitle', data.popups?.pppt?.subtitle);
+    setValue('popup-pppt-content', data.popups?.pppt?.content);
     setValue('popup-std-title', data.popups?.std?.title);
     setValue('popup-std-subtitle', data.popups?.std?.subtitle);
-
-    // Popups - contenu dans les éditeurs Quill (chargé en différé)
-    const popupContents = {
-        energie: data.popups?.energie?.content || '',
-        optimisation: data.popups?.optimisation?.content || '',
-        economie: data.popups?.economie?.content || '',
-        dpe: data.popups?.dpe?.content || '',
-        audit: data.popups?.audit?.content || '',
-        pppt: data.popups?.pppt?.content || '',
-        std: data.popups?.std?.content || ''
-    };
-
-    function loadQuillContent() {
-        if (window.quillEditors) {
-            Object.entries(popupContents).forEach(([key, html]) => {
-                if (window.quillEditors[key] && html) {
-                    window.quillEditors[key].root.innerHTML = html;
-                }
-            });
-        } else {
-            // Réessayer si Quill n'est pas encore chargé
-            setTimeout(loadQuillContent, 200);
-        }
-    }
-    loadQuillContent();
+    setValue('popup-std-content', data.popups?.std?.content);
 }
 
 function setValue(id, value) {
@@ -741,37 +686,37 @@ window.saveAll = async function() {
                 energie: {
                     title: document.getElementById('popup-energie-title')?.value || '',
                     subtitle: document.getElementById('popup-energie-subtitle')?.value || '',
-                    content: window.quillEditors?.energie?.root?.innerHTML || ''
+                    content: document.getElementById('popup-energie-content')?.value || ''
                 },
                 optimisation: {
                     title: document.getElementById('popup-optimisation-title')?.value || '',
                     subtitle: document.getElementById('popup-optimisation-subtitle')?.value || '',
-                    content: window.quillEditors?.optimisation?.root?.innerHTML || ''
+                    content: document.getElementById('popup-optimisation-content')?.value || ''
                 },
                 economie: {
                     title: document.getElementById('popup-economie-title')?.value || '',
                     subtitle: document.getElementById('popup-economie-subtitle')?.value || '',
-                    content: window.quillEditors?.economie?.root?.innerHTML || ''
+                    content: document.getElementById('popup-economie-content')?.value || ''
                 },
                 dpe: {
                     title: document.getElementById('popup-dpe-title')?.value || '',
                     subtitle: document.getElementById('popup-dpe-subtitle')?.value || '',
-                    content: window.quillEditors?.dpe?.root?.innerHTML || ''
+                    content: document.getElementById('popup-dpe-content')?.value || ''
                 },
                 audit: {
                     title: document.getElementById('popup-audit-title')?.value || '',
                     subtitle: document.getElementById('popup-audit-subtitle')?.value || '',
-                    content: window.quillEditors?.audit?.root?.innerHTML || ''
+                    content: document.getElementById('popup-audit-content')?.value || ''
                 },
                 pppt: {
                     title: document.getElementById('popup-pppt-title')?.value || '',
                     subtitle: document.getElementById('popup-pppt-subtitle')?.value || '',
-                    content: window.quillEditors?.pppt?.root?.innerHTML || ''
+                    content: document.getElementById('popup-pppt-content')?.value || ''
                 },
                 std: {
                     title: document.getElementById('popup-std-title')?.value || '',
                     subtitle: document.getElementById('popup-std-subtitle')?.value || '',
-                    content: window.quillEditors?.std?.root?.innerHTML || ''
+                    content: document.getElementById('popup-std-content')?.value || ''
                 }
             }
         };
