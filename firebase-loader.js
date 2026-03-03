@@ -488,6 +488,49 @@ function updateSiteContent(data) {
     }
 }
 
+    // Popups / Modals — injectés dans window.siteModalContent pour script.js
+    if (data.popups) {
+        window.siteModalContent = {
+            features: {},
+            prestations: {}
+        };
+
+        // Popups Hero (Énergie, Optimisation, Économie)
+        if (data.popups.energie) {
+            window.siteModalContent.features.energie = {
+                title: data.popups.energie.title || 'Énergie',
+                subtitle: data.popups.energie.subtitle || '',
+                content: data.popups.energie.content || ''
+            };
+        }
+        if (data.popups.optimisation) {
+            window.siteModalContent.features.optimisation = {
+                title: data.popups.optimisation.title || 'Optimisation',
+                subtitle: data.popups.optimisation.subtitle || '',
+                content: data.popups.optimisation.content || ''
+            };
+        }
+        if (data.popups.economie) {
+            window.siteModalContent.features.economie = {
+                title: data.popups.economie.title || 'Économie',
+                subtitle: data.popups.economie.subtitle || '',
+                content: data.popups.economie.content || ''
+            };
+        }
+
+        // Popups Prestations (DPE, Audit, PPPT, STD)
+        ['dpe', 'audit', 'pppt', 'std'].forEach(key => {
+            if (data.popups[key]) {
+                window.siteModalContent.prestations[key] = {
+                    title: data.popups[key].title || '',
+                    subtitle: data.popups[key].subtitle || '',
+                    content: data.popups[key].content || ''
+                };
+            }
+        });
+    }
+}
+
 // Fonction utilitaire pour mettre à jour un élément
 function updateElement(selector, content) {
     const element = document.querySelector(selector);

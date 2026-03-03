@@ -237,6 +237,7 @@
             <button class="admin-tab" onclick="showTab('contact')">Contact</button>
             <button class="admin-tab" onclick="showTab('parchemin')">Parchemin</button>
             <button class="admin-tab" onclick="showTab('logo')">Logo</button>
+            <button class="admin-tab" onclick="showTab('popups')">Popups</button>
         </div>
 
         <!-- Contenu Hero -->
@@ -889,6 +890,127 @@
                 <div class="editable-field">
                     <label>Texte du footer</label>
                     <input type="text" id="footer-text" data-field="footer.text">
+                </div>
+            </div>
+        </div>
+
+        <!-- Contenu Popups -->
+        <div id="tab-popups" class="admin-content">
+            <p style="background:#fff3cd;border-left:4px solid #ffc107;padding:12px 16px;border-radius:4px;margin-bottom:24px;">
+                ⚠️ Le champ <strong>Contenu HTML</strong> accepte du HTML basique : <code>&lt;p&gt;</code>, <code>&lt;h3&gt;</code>, <code>&lt;ul&gt;</code>, <code>&lt;li&gt;</code>, <code>&lt;strong&gt;</code>
+            </p>
+
+            <!-- Popups Hero -->
+            <div class="editable-section">
+                <h3>🟢 Popup "Énergie" (bouton Hero)</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="popup-energie-title" placeholder="Énergie">
+                </div>
+                <div class="editable-field">
+                    <label>Sous-titre</label>
+                    <input type="text" id="popup-energie-subtitle" placeholder="Innover pour une énergie durable...">
+                </div>
+                <div class="editable-field">
+                    <label>Contenu HTML</label>
+                    <textarea id="popup-energie-content" rows="5" placeholder="&lt;p&gt;Votre texte ici...&lt;/p&gt;"></textarea>
+                </div>
+            </div>
+
+            <div class="editable-section">
+                <h3>🔵 Popup "Optimisation" (bouton Hero)</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="popup-optimisation-title" placeholder="Optimisation">
+                </div>
+                <div class="editable-field">
+                    <label>Sous-titre</label>
+                    <input type="text" id="popup-optimisation-subtitle" placeholder="Optimisez vos performances...">
+                </div>
+                <div class="editable-field">
+                    <label>Contenu HTML</label>
+                    <textarea id="popup-optimisation-content" rows="5" placeholder="&lt;p&gt;Votre texte ici...&lt;/p&gt;"></textarea>
+                </div>
+            </div>
+
+            <div class="editable-section">
+                <h3>🟡 Popup "Économie" (bouton Hero)</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="popup-economie-title" placeholder="Économie">
+                </div>
+                <div class="editable-field">
+                    <label>Sous-titre</label>
+                    <input type="text" id="popup-economie-subtitle" placeholder="Réalisez des économies durables">
+                </div>
+                <div class="editable-field">
+                    <label>Contenu HTML</label>
+                    <textarea id="popup-economie-content" rows="5" placeholder="&lt;p&gt;Votre texte ici...&lt;/p&gt;"></textarea>
+                </div>
+            </div>
+
+            <!-- Popups Prestations -->
+            <div class="editable-section">
+                <h3>📋 Popup "DPE" (carte prestations)</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="popup-dpe-title" placeholder="Nos prestations de DPE">
+                </div>
+                <div class="editable-field">
+                    <label>Sous-titre</label>
+                    <input type="text" id="popup-dpe-subtitle" placeholder="Diagnostic de Performance Énergétique">
+                </div>
+                <div class="editable-field">
+                    <label>Contenu HTML</label>
+                    <textarea id="popup-dpe-content" rows="8" placeholder="&lt;h3&gt;DPE Individuel&lt;/h3&gt;&lt;p&gt;...&lt;/p&gt;"></textarea>
+                </div>
+            </div>
+
+            <div class="editable-section">
+                <h3>📋 Popup "Audit Énergétique" (carte prestations)</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="popup-audit-title" placeholder="Audit Énergétique Général">
+                </div>
+                <div class="editable-field">
+                    <label>Sous-titre</label>
+                    <input type="text" id="popup-audit-subtitle" placeholder="Optimisez la performance énergétique...">
+                </div>
+                <div class="editable-field">
+                    <label>Contenu HTML</label>
+                    <textarea id="popup-audit-content" rows="8" placeholder="&lt;p&gt;Votre texte ici...&lt;/p&gt;"></textarea>
+                </div>
+            </div>
+
+            <div class="editable-section">
+                <h3>📋 Popup "PPPT & DTG" (carte prestations)</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="popup-pppt-title" placeholder="PPPT &amp; DTG">
+                </div>
+                <div class="editable-field">
+                    <label>Sous-titre</label>
+                    <input type="text" id="popup-pppt-subtitle" placeholder="Planifiez et valorisez l'entretien...">
+                </div>
+                <div class="editable-field">
+                    <label>Contenu HTML</label>
+                    <textarea id="popup-pppt-content" rows="8" placeholder="&lt;p&gt;Votre texte ici...&lt;/p&gt;"></textarea>
+                </div>
+            </div>
+
+            <div class="editable-section">
+                <h3>📋 Popup "STD" (carte prestations)</h3>
+                <div class="editable-field">
+                    <label>Titre</label>
+                    <input type="text" id="popup-std-title" placeholder="Simulation Thermique Dynamique (STD)">
+                </div>
+                <div class="editable-field">
+                    <label>Sous-titre</label>
+                    <input type="text" id="popup-std-subtitle" placeholder="Études avancées pour optimiser...">
+                </div>
+                <div class="editable-field">
+                    <label>Contenu HTML</label>
+                    <textarea id="popup-std-content" rows="8" placeholder="&lt;p&gt;Votre texte ici...&lt;/p&gt;"></textarea>
                 </div>
             </div>
         </div>
