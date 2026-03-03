@@ -1,6 +1,6 @@
 // Script d'administration
 import { doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore.js";
-import { ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+// Firebase Storage non utilisé (stockage base64 dans Firestore)
 
 const ADMIN_PASSWORD = 'enopec1290';
 const SITE_DATA_COLLECTION = 'siteContent';
@@ -410,46 +410,81 @@ function updatePreview(inputId, previewId) {
     }
 }
 
-// Upload d'image
+// Upload d'image — conversion en base64 stockée dans Firestore (pas de CORS)
 window.uploadImage = async function(uploadInputId, targetInputId) {
     const fileInput = document.getElementById(uploadInputId);
     const targetInput = document.getElementById(targetInputId);
     const previewId = targetInputId + '-preview';
     const preview = document.getElementById(previewId);
-    
+
     if (!fileInput.files || !fileInput.files[0]) {
         showNotification('Veuillez sélectionner une image', 'error');
         return;
     }
-    
+
     const file = fileInput.files[0];
-    const fileName = `${Date.now()}_${file.name}`;
-    const storageRef = ref(window.firebaseStorage, `images/${fileName}`);
-    
+
+    // Vérifier la taille (max 800KB)
+    if (file.size > 800 * 1024) {
+        showNotification('Image trop lourde (max 800KB). Compressez-la avant.', 'error');
+        return;
+    }
+
+    showNotification('Traitement de l\'image...', 'success');
+
     try {
-        showNotification('Upload en cours...', 'success');
-        
-        // Upload du fichier
-        await uploadBytes(storageRef, file);
-        
-        // Obtenir l'URL de téléchargement
-        const downloadURL = await getDownloadURL(storageRef);
-        
-        // Mettre à jour le champ input
-        targetInput.value = downloadURL;
-        
-        // Mettre à jour la prévisualisation
+        // Redimensionner et convertir en base64 via canvas
+        const base64 = await resizeAndConvertToBase64(file, 1200, 800);
+
+        // Mettre à jour le champ input et la prévisualisation
+        targetInput.value = base64;
+
         if (preview) {
-            preview.src = downloadURL;
+            preview.src = base64;
             preview.style.display = 'block';
         }
-        
-        showNotification('Image uploadée avec succès !', 'success');
+
+        showNotification('✅ Image chargée ! Cliquez sur "Enregistrer" pour sauvegarder.', 'success');
     } catch (error) {
-        console.error('Erreur upload:', error);
-        showNotification('Erreur lors de l\'upload de l\'image', 'error');
+        console.error('Erreur traitement image:', error);
+        showNotification('Erreur lors du traitement de l\'image', 'error');
     }
 };
+
+// Redimensionner l'image et la convertir en base64
+function resizeAndConvertToBase64(file, maxWidth, maxHeight) {
+    return new Promise((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const img = new Image();
+            img.onload = function() {
+                const canvas = document.createElement('canvas');
+                let width = img.width;
+                let height = img.height;
+
+                // Calculer les nouvelles dimensions en gardant le ratio
+                if (width > maxWidth || height > maxHeight) {
+                    const ratio = Math.min(maxWidth / width, maxHeight / height);
+                    width = Math.round(width * ratio);
+                    height = Math.round(height * ratio);
+                }
+
+                canvas.width = width;
+                canvas.height = height;
+                const ctx = canvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, width, height);
+
+                // Convertir en base64 JPEG avec qualité 0.82
+                const base64 = canvas.toDataURL('image/jpeg', 0.82);
+                resolve(base64);
+            };
+            img.onerror = reject;
+            img.src = e.target.result;
+        };
+        reader.onerror = reject;
+        reader.readAsDataURL(file);
+    });
+}
 
 // Sauvegarder toutes les modifications
 window.saveAll = async function() {
