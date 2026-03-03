@@ -425,28 +425,46 @@ function populateForm(data) {
     // Footer
     setValue('footer-text', data.footer?.text);
 
-    // Popups
+    // Popups - titres et sous-titres (inputs normaux)
     setValue('popup-energie-title', data.popups?.energie?.title);
     setValue('popup-energie-subtitle', data.popups?.energie?.subtitle);
-    setValue('popup-energie-content', data.popups?.energie?.content);
     setValue('popup-optimisation-title', data.popups?.optimisation?.title);
     setValue('popup-optimisation-subtitle', data.popups?.optimisation?.subtitle);
-    setValue('popup-optimisation-content', data.popups?.optimisation?.content);
     setValue('popup-economie-title', data.popups?.economie?.title);
     setValue('popup-economie-subtitle', data.popups?.economie?.subtitle);
-    setValue('popup-economie-content', data.popups?.economie?.content);
     setValue('popup-dpe-title', data.popups?.dpe?.title);
     setValue('popup-dpe-subtitle', data.popups?.dpe?.subtitle);
-    setValue('popup-dpe-content', data.popups?.dpe?.content);
     setValue('popup-audit-title', data.popups?.audit?.title);
     setValue('popup-audit-subtitle', data.popups?.audit?.subtitle);
-    setValue('popup-audit-content', data.popups?.audit?.content);
     setValue('popup-pppt-title', data.popups?.pppt?.title);
     setValue('popup-pppt-subtitle', data.popups?.pppt?.subtitle);
-    setValue('popup-pppt-content', data.popups?.pppt?.content);
     setValue('popup-std-title', data.popups?.std?.title);
     setValue('popup-std-subtitle', data.popups?.std?.subtitle);
-    setValue('popup-std-content', data.popups?.std?.content);
+
+    // Popups - contenu dans les éditeurs Quill (chargé en différé)
+    const popupContents = {
+        energie: data.popups?.energie?.content || '',
+        optimisation: data.popups?.optimisation?.content || '',
+        economie: data.popups?.economie?.content || '',
+        dpe: data.popups?.dpe?.content || '',
+        audit: data.popups?.audit?.content || '',
+        pppt: data.popups?.pppt?.content || '',
+        std: data.popups?.std?.content || ''
+    };
+
+    function loadQuillContent() {
+        if (window.quillEditors) {
+            Object.entries(popupContents).forEach(([key, html]) => {
+                if (window.quillEditors[key] && html) {
+                    window.quillEditors[key].root.innerHTML = html;
+                }
+            });
+        } else {
+            // Réessayer si Quill n'est pas encore chargé
+            setTimeout(loadQuillContent, 200);
+        }
+    }
+    loadQuillContent();
 }
 
 function setValue(id, value) {
@@ -723,37 +741,37 @@ window.saveAll = async function() {
                 energie: {
                     title: document.getElementById('popup-energie-title')?.value || '',
                     subtitle: document.getElementById('popup-energie-subtitle')?.value || '',
-                    content: document.getElementById('popup-energie-content')?.value || ''
+                    content: window.quillEditors?.energie?.root?.innerHTML || ''
                 },
                 optimisation: {
                     title: document.getElementById('popup-optimisation-title')?.value || '',
                     subtitle: document.getElementById('popup-optimisation-subtitle')?.value || '',
-                    content: document.getElementById('popup-optimisation-content')?.value || ''
+                    content: window.quillEditors?.optimisation?.root?.innerHTML || ''
                 },
                 economie: {
                     title: document.getElementById('popup-economie-title')?.value || '',
                     subtitle: document.getElementById('popup-economie-subtitle')?.value || '',
-                    content: document.getElementById('popup-economie-content')?.value || ''
+                    content: window.quillEditors?.economie?.root?.innerHTML || ''
                 },
                 dpe: {
                     title: document.getElementById('popup-dpe-title')?.value || '',
                     subtitle: document.getElementById('popup-dpe-subtitle')?.value || '',
-                    content: document.getElementById('popup-dpe-content')?.value || ''
+                    content: window.quillEditors?.dpe?.root?.innerHTML || ''
                 },
                 audit: {
                     title: document.getElementById('popup-audit-title')?.value || '',
                     subtitle: document.getElementById('popup-audit-subtitle')?.value || '',
-                    content: document.getElementById('popup-audit-content')?.value || ''
+                    content: window.quillEditors?.audit?.root?.innerHTML || ''
                 },
                 pppt: {
                     title: document.getElementById('popup-pppt-title')?.value || '',
                     subtitle: document.getElementById('popup-pppt-subtitle')?.value || '',
-                    content: document.getElementById('popup-pppt-content')?.value || ''
+                    content: window.quillEditors?.pppt?.root?.innerHTML || ''
                 },
                 std: {
                     title: document.getElementById('popup-std-title')?.value || '',
                     subtitle: document.getElementById('popup-std-subtitle')?.value || '',
-                    content: document.getElementById('popup-std-content')?.value || ''
+                    content: window.quillEditors?.std?.root?.innerHTML || ''
                 }
             }
         };
